@@ -14,7 +14,9 @@ E então, vamos nessa? Mostre para nós que você é o profissional que estamos 
 
 ## Instruções
 
-Se você resolveu topar o desafio, vamos lá! Você vai desenvolver um aplicativo de previsão do tempo. O resultado final deve ser parecido com:
+Se você resolveu topar o desafio, vamos lá! Você vai desenvolver um aplicativo de previsão do tempo. O aplicativo pode ser desenvolvidor em [Flutter](https://flutter.dev/) ou [React-Native](https://reactnative.dev/).
+
+O resultado final deverá ser parecido com:
 
 ![](images/thumbnail-figma.png)
 
@@ -32,4 +34,4 @@ Os pontos que serão avaliados:
 - organização de commits
 - organização de código
 
-Boa sorte, aguardamos sua submissão! 🍀
+Boa sorte 🍀! Aguardamos sua submissão!
