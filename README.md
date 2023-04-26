@@ -14,7 +14,7 @@ E então, vamos nessa? Mostre para nós que você é o profissional que estamos 
 
 ## Instruções
 
-Se você resolveu topar o desafio, vamos lá! Você vai desenvolver um aplicativo de previsão do tempo. O aplicativo pode ser desenvolvidor em [Flutter](https://flutter.dev/) ou [React-Native](https://reactnative.dev/).
+Se você resolveu topar o desafio, vamos lá! Primeiro de tudo, faça o **fork** deste repositório. Você deverá desenvolver um aplicativo de previsão do tempo. O aplicativo pode ser desenvolvidor em [Flutter](https://flutter.dev/) ou [React-Native](https://reactnative.dev/).
 
 O resultado final deverá ser parecido com:
 
