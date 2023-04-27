@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -11,192 +11,23 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { darkColors, lightColors } from "../../styles/colors";
-import {
-  IconCalendar,
-  IconCloudy,
-  IconCloudyDay,
-  IconCloudyMoon,
-  IconHumidity,
-  IconMap,
-  IconNotif,
-  IconOpt,
-  IconRain,
-  IconWind,
-} from "../../assets/svg";
-
-const mockData = [
-  {
-    time: "11:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudy />,
-  },
-  {
-    time: "12:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudyDay />,
-  },
-  {
-    time: "13:00",
-    temperature: "24",
-    selected: true,
-    icon: <IconCloudyMoon />,
-  },
-  {
-    time: "14:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudy />,
-  },
-  {
-    time: "15:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudyDay />,
-  },
-  {
-    time: "16:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudyMoon />,
-  },
-  {
-    time: "17:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudyMoon />,
-  },
-  {
-    time: "18:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudyMoon />,
-  },
-];
-
-const Header = () => {
-  const colorScheme = useColorScheme();
-  // const colors = colorScheme === "dark" ? darkColors : lightColors;
-  const colors = darkColors;
-  return (
-    <View style={styles(colors).headerContainer}>
-      <View style={styles(colors).locationContainer}>
-        <IconMap />
-        <Text style={styles(colors).semiBoldText}>São paulo</Text>
-        <IconOpt />
-      </View>
-      <View>
-        <View style={{ position: "absolute", top: 0, right: 0, zIndex: 1 }}>
-          <View style={styles(colors).notificationMark} />
-        </View>
-        <IconNotif />
-      </View>
-    </View>
-  );
-};
-
-const WeatherCard = ({ item, selected }) => {
-  const colorScheme = useColorScheme();
-  // const colors = colorScheme === "dark" ? darkColors : lightColors;
-  const colors = darkColors;
-  const CardContent = () => (
-    <View style={styles(colors).weatherCardContainer(selected)}>
-      <Text style={styles(colors).regularText}>{`${item.temperature}ºC`}</Text>
-      {item.icon}
-      <Text style={styles(colors).regularText}>{item.time}</Text>
-    </View>
-  );
-
-  return selected ? (
-    <LinearGradient
-      colors={["#5096FF", "#0044AB"]}
-      start={{ x: 1.5, y: 0.4 }}
-      end={{ x: 0, y: 1.1 }}
-      style={{
-        overflow: "hidden",
-        borderRadius: 20,
-        padding: 1,
-      }}
-    >
-      <CardContent />
-    </LinearGradient>
-  ) : (
-    <CardContent />
-  );
-};
-
-const ForecastRow = () => {
-  const colorScheme = useColorScheme();
-  // const colors = colorScheme === "dark" ? darkColors : lightColors;
-  const colors = darkColors;
-  return (
-    <View style={styles(colors).forecastRowContainer}>
-      <Text style={styles(colors).forecastBoldText}>Monday</Text>
-      {/* <Image
-                source={require("../../assets/images/RainDrops.png")}
-                style={{ width: 50, height: 50 }}
-              /> */}
-      <Image
-        source={require("../../assets/images/CloudStorm.png")}
-        style={{ width: 50, height: 50 }}
-      />
-      <View style={styles(colors).forecastTemperatureContainer}>
-        <View flexDirection={"row"}>
-          <Text style={styles(colors).forecastMediumText("#fff")}>13</Text>
-          <Text style={styles(colors).forecastMediumTextSuperscript("#fff")}>
-            ºC
-          </Text>
-        </View>
-        <View flexDirection={"row"}>
-          <Text
-            style={styles(colors).forecastMediumText("rgba(255,255,255,0.5)")}
-          >
-            10
-          </Text>
-          <Text
-            style={styles(colors).forecastMediumTextSuperscript(
-              "rgba(255,255,255,0.5)"
-            )}
-          >
-            ºC
-          </Text>
-        </View>
-      </View>
-    </View>
-  );
-};
+import Forecast from "../../components/Forecast";
+import Attributes from "../../components/Attributes";
+import Header from "../../components/Header";
+import WeatherInfo from "../../components/WeatherInfo";
+import { useAtom } from "jotai";
+import { weatherDataAtom } from "../../../App";
 
 export default function Home() {
   const colorScheme = useColorScheme();
   // const colors = colorScheme === "dark" ? darkColors : lightColors;
   const colors = darkColors;
   const insets = useSafeAreaInsets();
+  const [weatherData] = useAtom(weatherDataAtom);
 
-  const MainContent = () => (
-    <View style={styles(colors).mainContentContainer}>
-      <Image
-        source={
-          colorScheme === "dark"
-            ? require("../../assets/images/Dark.png")
-            : require("../../assets/images/Light.png")
-        }
-        style={{ width: 300, height: 200 }}
-      />
-      <Text style={styles(colors).mainContentTitle}>{`30º`}</Text>
-      <Text
-        style={[
-          styles(colors).regularText,
-          {
-            textAlign: "center",
-            textShadowColor: "transparent",
-          },
-        ]}
-      >
-        {`Precipitations\nMax.:34º   Min.:28º`}
-      </Text>
-    </View>
-  );
+  useEffect(() => {
+    console.log(weatherData);
+  }, [weatherData]);
 
   return (
     <>
@@ -218,66 +49,31 @@ export default function Home() {
       >
         <Header />
         <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-          <MainContent />
-          <View
-            style={[
-              styles(colors).generalContainer,
-              {
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                paddingHorizontal: 24,
-              },
-            ]}
-          >
-            <View style={styles(colors).attributeContainer}>
-              <IconRain />
-              <Text style={styles(colors).attributeText}>{`30%`}</Text>
-            </View>
-            <View style={styles(colors).attributeContainer}>
-              <IconHumidity />
-              <Text style={styles(colors).attributeText}>{`90%`}</Text>
-            </View>
-            <View style={styles(colors).attributeContainer}>
-              <IconWind />
-              <Text style={styles(colors).attributeText}>{`19 km/h`}</Text>
-            </View>
-          </View>
-          <View
-            style={styles(colors).generalContainer}
-            flexDirection={"column"}
-          >
-            <View style={styles(colors).titleContainer}>
-              <Text style={styles(colors).boldText}>Today</Text>
-              <Text style={styles(colors).regularText}>Mar, 9</Text>
-            </View>
-            <FlatList
-              data={mockData}
-              renderItem={({ item }) => (
-                <WeatherCard item={item} selected={item.selected} />
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={{
-                paddingLeft: 20,
-              }}
-              contentContainerStyle={{
-                gap: 12,
-                paddingRight: 40,
-              }}
+          <View style={styles(colors).mainContentContainer}>
+            <Image
+              source={
+                colorScheme === "dark"
+                  ? require("../../assets/images/Dark.png")
+                  : require("../../assets/images/Light.png")
+              }
+              style={{ width: 300, height: 200 }}
             />
+            <Text style={styles(colors).mainContentTitle}>{`30º`}</Text>
+            <Text
+              style={[
+                styles(colors).regularText,
+                {
+                  textAlign: "center",
+                  textShadowColor: "transparent",
+                },
+              ]}
+            >
+              {`Precipitations\nMax.:34º   Min.:28º`}
+            </Text>
           </View>
-          <View
-            style={styles(colors).generalContainer}
-            flexDirection={"column"}
-          >
-            <View style={styles(colors).titleContainer}>
-              <Text style={styles(colors).boldText}>Next Forecast</Text>
-              <IconCalendar />
-            </View>
-            <ForecastRow />
-          </View>
+          <Attributes />
+          <WeatherInfo />
+          <Forecast />
         </ScrollView>
       </View>
     </>
@@ -316,28 +112,6 @@ const styles = (colors) =>
       fontFamily: "SFProDisplaySemiBold",
       textAlign: "center",
     },
-    titleContainer: {
-      paddingHorizontal: 24,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-    },
-    boldText: {
-      fontSize: 20,
-      color: "#fff",
-      fontFamily: "SFProDisplayBold",
-      textShadowOffset: {
-        width: -2,
-        height: 3,
-      },
-      textShadowRadius: 4,
-      textShadowColor: "rgba(0, 0, 0, 0.1)",
-    },
-    semiBoldText: {
-      fontSize: 18,
-      color: "#fff",
-      fontFamily: "SFProDisplaySemiBold",
-    },
     regularText: {
       fontSize: 18,
       color: "#fff",
@@ -349,70 +123,4 @@ const styles = (colors) =>
       textShadowRadius: 4,
       textShadowColor: "rgba(0, 0, 0, 0.1)",
     },
-    attributeContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 5,
-    },
-    attributeText: {
-      fontSize: 14,
-      color: "#fff",
-      fontFamily: "SFProDisplayBold",
-    },
-    weatherCardContainer: (selected) => ({
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: selected ? "#11418D" : "transparent",
-      width: 70,
-      borderRadius: 20,
-      paddingVertical: 20,
-      gap: 20,
-    }),
-    headerContainer: {
-      flexDirection: "row",
-      marginTop: 20,
-      paddingHorizontal: 20,
-      alignItems: "center",
-      justifyContent: "space-between",
-    },
-    locationContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 8,
-    },
-    notificationMark: {
-      width: 11,
-      height: 11,
-      borderRadius: 100,
-      borderWidth: 1.4,
-      borderColor: "#47BBE1",
-      backgroundColor: "#FF7C7C",
-    },
-    forecastRowContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      paddingHorizontal: 24,
-    },
-    forecastBoldText: {
-      fontFamily: "AlegreyaSans_700Bold",
-      fontSize: 18,
-      color: "#fff",
-    },
-    forecastTemperatureContainer: {
-      flexDirection: "row",
-      gap: 10,
-    },
-    forecastMediumText: (color) => ({
-      fontFamily: "AlegreyaSans_500Medium",
-      fontSize: 18,
-      lineHeight: 22,
-      color: color,
-    }),
-    forecastMediumTextSuperscript: (color) => ({
-      fontFamily: "AlegreyaSans_500Medium",
-      fontSize: 10,
-      lineHeight: 22,
-      color: color,
-    }),
   });
