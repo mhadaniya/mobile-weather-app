@@ -12,6 +12,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { darkColors, lightColors } from "../../styles/colors";
 import {
+  IconCalendar,
   IconCloudy,
   IconCloudyDay,
   IconCloudyMoon,
@@ -177,60 +178,96 @@ export default function Home() {
         ]}
       >
         <Header />
-        <MainContent />
-        <View
-          style={[
-            styles(colors).generalContainer,
-            {
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              paddingHorizontal: 24,
-            },
-          ]}
-        >
-          <View style={styles(colors).attributeContainer}>
-            <IconRain />
-            <Text style={styles(colors).attributeText}>{`30%`}</Text>
+        <ScrollView>
+          <MainContent />
+          <View
+            style={[
+              styles(colors).generalContainer,
+              {
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                paddingHorizontal: 24,
+              },
+            ]}
+          >
+            <View style={styles(colors).attributeContainer}>
+              <IconRain />
+              <Text style={styles(colors).attributeText}>{`30%`}</Text>
+            </View>
+            <View style={styles(colors).attributeContainer}>
+              <IconHumidity />
+              <Text style={styles(colors).attributeText}>{`90%`}</Text>
+            </View>
+            <View style={styles(colors).attributeContainer}>
+              <IconWind />
+              <Text style={styles(colors).attributeText}>{`19 km/h`}</Text>
+            </View>
           </View>
-          <View style={styles(colors).attributeContainer}>
-            <IconHumidity />
-            <Text style={styles(colors).attributeText}>{`90%`}</Text>
+          <View
+            style={[
+              styles(colors).generalContainer,
+              {
+                flexDirection: "column",
+              },
+            ]}
+          >
+            <View style={styles(colors).titleContainer}>
+              <Text style={styles(colors).boldText}>Today</Text>
+              <Text style={styles(colors).regularText}>Mar, 9</Text>
+            </View>
+            <FlatList
+              data={mockData}
+              renderItem={({ item }) => (
+                <WeatherCard item={item} selected={item.selected} />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={{
+                paddingLeft: 20,
+              }}
+              contentContainerStyle={{
+                gap: 12,
+                paddingRight: 40,
+              }}
+            />
           </View>
-          <View style={styles(colors).attributeContainer}>
-            <IconWind />
-            <Text style={styles(colors).attributeText}>{`19 km/h`}</Text>
+          <View
+            style={[
+              styles(colors).generalContainer,
+              {
+                flexDirection: "column",
+              },
+            ]}
+          >
+            <View style={styles(colors).titleContainer}>
+              <Text style={styles(colors).boldText}>Next Forecast</Text>
+              <IconCalendar />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingHorizontal: 24,
+              }}
+            >
+              <Text>Monday</Text>
+              {/* <Image source={require("../../assets/images/RainDrops.png")} /> */}
+              <Image source={require("../../assets/images/CloudStorm.png")} />
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 5,
+                }}
+              >
+                <Text>13ºC</Text>
+                <Text>10ºC</Text>
+              </View>
+            </View>
           </View>
-        </View>
-        <View
-          style={[
-            styles(colors).generalContainer,
-            {
-              flexDirection: "column",
-            },
-          ]}
-        >
-          <View style={styles(colors).titleContainer}>
-            <Text style={styles(colors).boldText}>Today</Text>
-            <Text style={styles(colors).regularText}>Mar, 9</Text>
-          </View>
-          <FlatList
-            data={mockData}
-            renderItem={({ item }) => (
-              <WeatherCard item={item} selected={item.selected} />
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{
-              paddingLeft: 20,
-            }}
-            contentContainerStyle={{
-              gap: 12,
-              paddingRight: 40,
-            }}
-          />
-        </View>
+        </ScrollView>
       </View>
     </>
   );
@@ -271,7 +308,7 @@ const styles = (colors) =>
     titleContainer: {
       paddingHorizontal: 24,
       flexDirection: "row",
-      alignItems: "baseline",
+      alignItems: "center",
       justifyContent: "space-between",
     },
     boldText: {
