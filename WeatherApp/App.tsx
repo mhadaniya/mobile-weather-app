@@ -12,10 +12,12 @@ import axios from 'axios';
 //import type { PropsWithChildren } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
+  Image,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
@@ -27,16 +29,24 @@ type SectionProps = PropsWithChildren<{
 }>;
 */
 
-const baseUrl = 'https://api.hgbrasil.com/weather';
-
+const baseUrl = 'https://api.hgbrasil.com/weather?key=581fed9e';
+const LocationImage = require('./assets/local.png');
 
 function App(): JSX.Element {
   const isDarkMode = true;
   const [data, setdata] = useState({});
-  axios.get(`${baseUrl}`).then(response => {
-    setdata(response.data.results);
+  const [today, setToday] = useState({});
+  const [forecast, setforecast] = useState([]);
+  axios.get(`${baseUrl}`).then(async response => {
+    await setdata(response.data.results);
+    await setforecast(response.data.results.forecast);
+    forecast.forEach(item => {
+      if (item.date === data.date.slice(0, 5)) {
+        setToday(item);
+      }
+    });
   });
-  const [selectedValue, setSelectedValue] = useState(data.city);
+  const [selectedValue, setSelectedValue] = useState(data.city_name);
   return (
     <LinearGradient
       style={{ height: '100%' }}
@@ -50,20 +60,52 @@ function App(): JSX.Element {
         backgroundColor={isDarkMode ? '#08244F' : '#29B2DD'}
       />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View style={{ margin: 30, height: '100%' }}>
-          <View>
+        <View style={{ marginVertical: 10, marginHorizontal: 25 }}>
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <Image style={styles.LocalIcon} source={LocationImage} />
             <Picker
               selectedValue={selectedValue}
-              style={{ height: 50, width: 150, color: '#000'}}
-              onValueChange={(itemValue: any) => setSelectedValue(itemValue)}
-            >
-              <Picker.Item value={data.city} />
-              <Picker.Item value={data.city} />
+              style={{ color: 'white', width: 155, height: 44 }}
+              onValueChange={itemValue =>
+                setSelectedValue(itemValue)
+              }>
+              <Picker.Item label={data.city_name} value={data.city} />
             </Picker>
+            <TouchableOpacity style={{ marginLeft: 100 ,alignContent: 'flex-end' }}>
+              <Image style={styles.notificationIcon} source={require('./assets/notify.png')} />
+            </TouchableOpacity>
           </View>
           <Text style={styles.Temperature} >
             {data.temp}°
           </Text>
+          <View>
+            <Text style={{ textAlign: 'center', color:'white' }}>
+              Precipitations
+            </Text>
+            <Text style={styles.Text}>
+                Max.:{
+                  today.max
+              }°
+              &nbsp;
+              Min.:{
+                today.min
+              }°
+            </Text>
+          </View>
+          <View style={{ flex: 1, flexDirection: 'row', marginTop:30 ,paddingHorizontal:25, paddingVertical:15, borderRadius: 22, backgroundColor: isDarkMode ? '#001026' : '#104084' }} >
+            <View style={{ flex:1, flexDirection:'row'}}>
+              <Image style={styles.WeatherIcons} source={require('./assets/chuva.png')} />
+              <Text style={styles.Text}>{today.rain_probability}%</Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Image style={styles.WeatherIcons} source={require('./assets/chuva.png')} />
+              <Text style={styles.Text}>{today.rain_probability}%</Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Image style={styles.WeatherIcons} source={require('./assets/chuva.png')} />
+              <Text style={styles.Text}>{today.rain_probability}%</Text>
+            </View>
+          </View>
         </View>
       </ScrollView>
     </LinearGradient>
@@ -92,6 +134,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     fontSize: 64,
+  },
+  notificationIcon: {
+    marginTop: 15,
+    width: 15,
+    height: 20,
+  },
+  LocalIcon: {
+    marginTop: 15,
+    width: 20,
+    height: 20,
+  },
+  Text: {
+    textAlign: 'center',
+    color: 'white',
+    
+  },
+  WeatherIcons: {
+    width: 18,
+    height: 19,
+    marginHorizontal:10,
   },
 });
 
