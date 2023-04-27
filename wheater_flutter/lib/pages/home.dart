@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:wheater_flutter/widgets/wheather_summary.dart';
 
@@ -48,37 +49,49 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blue,
-      appBar: AppBar(
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            // ignore: prefer_const_constructors
-            child: Icon(
-              Icons.notifications_outlined,
-              size: 27,
-            ),
-          ),
-        ],
-        leading: Icon(
-          Icons.pin_drop,
-          size: 27,
-        ),
-        shadowColor: Colors.transparent,
-        bottomOpacity: 0.0,
-        elevation: 0.0,
-        title: DropDown(),
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.topCenter,
+              colors: <Color>[
+            HexColor('#29B2DD'),
+            HexColor('##33AADD'),
+            HexColor('#2DC8EA')
+          ])),
+      child: Scaffold(
         backgroundColor: Colors.transparent,
-        toolbarHeight: 50,
-      ),
-      body: Column(
-        children: [
-          WheatherSummary(
-              temperature: apiData["current_weather"]["temperature"].toString(),
-              min: apiData["daily"]["temperature_2m_min"][0].toString(),
-              max: apiData["daily"]["temperature_2m_max"][0].toString())
-        ],
+        appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              // ignore: prefer_const_constructors
+              child: Icon(
+                Icons.notifications_outlined,
+                size: 27,
+              ),
+            ),
+          ],
+          leading: Icon(
+            Icons.pin_drop,
+            size: 27,
+          ),
+          shadowColor: Colors.transparent,
+          bottomOpacity: 0.0,
+          elevation: 0.0,
+          title: DropDown(),
+          backgroundColor: Colors.transparent,
+          toolbarHeight: 50,
+        ),
+        body: Column(
+          children: [
+            WheatherSummary(
+                temperature:
+                    apiData["current_weather"]["temperature"].toString(),
+                min: apiData["daily"]["temperature_2m_min"][0].toString(),
+                max: apiData["daily"]["temperature_2m_max"][0].toString())
+          ],
+        ),
       ),
     );
   }
