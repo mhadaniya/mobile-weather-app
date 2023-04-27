@@ -24,8 +24,6 @@ import {
   IconWind,
 } from "../../assets/svg";
 
-// make mockdata a list with times, temperatures, and an icon based on the current time
-
 const mockData = [
   {
     time: "11:00",
@@ -128,6 +126,47 @@ const WeatherCard = ({ item, selected }) => {
   );
 };
 
+const ForecastRow = () => {
+  const colorScheme = useColorScheme();
+  // const colors = colorScheme === "dark" ? darkColors : lightColors;
+  const colors = darkColors;
+  return (
+    <View style={styles(colors).forecastRowContainer}>
+      <Text style={styles(colors).forecastBoldText}>Monday</Text>
+      {/* <Image
+                source={require("../../assets/images/RainDrops.png")}
+                style={{ width: 50, height: 50 }}
+              /> */}
+      <Image
+        source={require("../../assets/images/CloudStorm.png")}
+        style={{ width: 50, height: 50 }}
+      />
+      <View style={styles(colors).forecastTemperatureContainer}>
+        <View flexDirection={"row"}>
+          <Text style={styles(colors).forecastMediumText("#fff")}>13</Text>
+          <Text style={styles(colors).forecastMediumTextSuperscript("#fff")}>
+            ºC
+          </Text>
+        </View>
+        <View flexDirection={"row"}>
+          <Text
+            style={styles(colors).forecastMediumText("rgba(255,255,255,0.5)")}
+          >
+            10
+          </Text>
+          <Text
+            style={styles(colors).forecastMediumTextSuperscript(
+              "rgba(255,255,255,0.5)"
+            )}
+          >
+            ºC
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
 export default function Home() {
   const colorScheme = useColorScheme();
   // const colors = colorScheme === "dark" ? darkColors : lightColors;
@@ -178,7 +217,7 @@ export default function Home() {
         ]}
       >
         <Header />
-        <ScrollView>
+        <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
           <MainContent />
           <View
             style={[
@@ -205,12 +244,8 @@ export default function Home() {
             </View>
           </View>
           <View
-            style={[
-              styles(colors).generalContainer,
-              {
-                flexDirection: "column",
-              },
-            ]}
+            style={styles(colors).generalContainer}
+            flexDirection={"column"}
           >
             <View style={styles(colors).titleContainer}>
               <Text style={styles(colors).boldText}>Today</Text>
@@ -234,38 +269,14 @@ export default function Home() {
             />
           </View>
           <View
-            style={[
-              styles(colors).generalContainer,
-              {
-                flexDirection: "column",
-              },
-            ]}
+            style={styles(colors).generalContainer}
+            flexDirection={"column"}
           >
             <View style={styles(colors).titleContainer}>
               <Text style={styles(colors).boldText}>Next Forecast</Text>
               <IconCalendar />
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                paddingHorizontal: 24,
-              }}
-            >
-              <Text>Monday</Text>
-              {/* <Image source={require("../../assets/images/RainDrops.png")} /> */}
-              <Image source={require("../../assets/images/CloudStorm.png")} />
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 5,
-                }}
-              >
-                <Text>13ºC</Text>
-                <Text>10ºC</Text>
-              </View>
-            </View>
+            <ForecastRow />
           </View>
         </ScrollView>
       </View>
@@ -377,4 +388,31 @@ const styles = (colors) =>
       borderColor: "#47BBE1",
       backgroundColor: "#FF7C7C",
     },
+    forecastRowContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingHorizontal: 24,
+    },
+    forecastBoldText: {
+      fontFamily: "AlegreyaSans_700Bold",
+      fontSize: 18,
+      color: "#fff",
+    },
+    forecastTemperatureContainer: {
+      flexDirection: "row",
+      gap: 10,
+    },
+    forecastMediumText: (color) => ({
+      fontFamily: "AlegreyaSans_500Medium",
+      fontSize: 18,
+      lineHeight: 22,
+      color: color,
+    }),
+    forecastMediumTextSuperscript: (color) => ({
+      fontFamily: "AlegreyaSans_500Medium",
+      fontSize: 10,
+      lineHeight: 22,
+      color: color,
+    }),
   });
