@@ -92,20 +92,6 @@ function App(): JSX.Element {
               }°
             </Text>
           </View>
-          <View style={{ flex: 1, flexDirection: 'row', marginTop:30 ,paddingHorizontal:25, paddingVertical:15, borderRadius: 22, backgroundColor: isDarkMode ? '#001026' : '#104084' }} >
-            <View style={{ flex:1, flexDirection:'row'}}>
-              <Image style={styles.WeatherIcons} source={require('./assets/chuva.png')} />
-              <Text style={styles.Text}>{today.rain_probability}%</Text>
-            </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <Image style={styles.WeatherIcons} source={require('./assets/chuva.png')} />
-              <Text style={styles.Text}>{today.rain_probability}%</Text>
-            </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <Image style={styles.WeatherIcons} source={require('./assets/chuva.png')} />
-              <Text style={styles.Text}>{today.rain_probability}%</Text>
-            </View>
-          </View>
         </View>
       </ScrollView>
     </LinearGradient>
