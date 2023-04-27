@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /**
  * Sample React Native App
@@ -6,73 +7,66 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+//import type { PropsWithChildren } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
-  Button,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+//import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-
+/*
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
+*/
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+const baseUrl = 'https://api.hgbrasil.com/weather';
+
 
 function App(): JSX.Element {
-  const isDarkMode = false;
+  const isDarkMode = true;
+  const [data, setdata] = useState({});
+  axios.get(`${baseUrl}`).then(response => {
+    setdata(response.data.results);
+  });
+  const [selectedValue, setSelectedValue] = useState(data.city);
   return (
-    <SafeAreaView>
-      <LinearGradient
-        colors={
-          isDarkMode
-            ? ['#08244F', '#134CB5', '#0B42AB']
-            : ['#29B2DD', '#33AADD', '#2DC8EA']
-        }>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={isDarkMode ? '#08244F' : '#29B2DD'}
-        />
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <View style={{margin: 30}}>
-            <Button title="aaa" />
+    <LinearGradient
+      style={{ height: '100%' }}
+      colors={
+        isDarkMode
+          ? ['#08244F', '#134CB5', '#0B42AB']
+          : ['#29B2DD', '#33AADD', '#2DC8EA']
+      }>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={isDarkMode ? '#08244F' : '#29B2DD'}
+      />
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <View style={{ margin: 30, height: '100%' }}>
+          <View>
+            <Picker
+              selectedValue={selectedValue}
+              style={{ height: 50, width: 150, color: '#000'}}
+              onValueChange={(itemValue: any) => setSelectedValue(itemValue)}
+            >
+              <Picker.Item value={data.city} />
+              <Picker.Item value={data.city} />
+            </Picker>
           </View>
-        </ScrollView>
-      </LinearGradient>
-    </SafeAreaView>
+          <Text style={styles.Temperature} >
+            {data.temp}°
+          </Text>
+        </View>
+      </ScrollView>
+    </LinearGradient>
   );
 }
 
@@ -92,6 +86,12 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  Temperature: {
+    margin: 10,
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 64,
   },
 });
 

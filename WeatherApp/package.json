@@ -10,6 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-picker/picker": "^2.4.10",
+    "axios": "^1.3.6",
     "react": "18.2.0",
     "react-native": "0.71.7",
     "react-native-linear-gradient": "^2.6.2"
