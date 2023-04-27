@@ -1,9 +1,72 @@
 import React from "react";
-import { View, Text, StyleSheet, useColorScheme, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  useColorScheme,
+  Image,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { darkColors, lightColors } from "../../styles/colors";
-import { IconMap, IconNotif, IconOpt } from "../../assets/svg";
+import {
+  IconCloudy,
+  IconCloudyDay,
+  IconCloudyMoon,
+  IconHumidity,
+  IconMap,
+  IconNotif,
+  IconOpt,
+  IconRain,
+  IconWind,
+} from "../../assets/svg";
+
+// make mockdata a list with times, temperatures, and an icon based on the current time
+
+const mockData = [
+  {
+    time: "11:00",
+    temperature: "24°",
+    icon: <IconCloudy />,
+  },
+  {
+    time: "12:00",
+    temperature: "24°",
+    icon: <IconCloudyDay />,
+  },
+  {
+    time: "13:00",
+    temperature: "24°",
+    icon: <IconCloudyMoon />,
+  },
+  {
+    time: "14:00",
+    temperature: "24°",
+    icon: <IconCloudy />,
+  },
+  {
+    time: "15:00",
+    temperature: "24°",
+    icon: <IconCloudyDay />,
+  },
+  {
+    time: "16:00",
+    temperature: "24°",
+    icon: <IconCloudyMoon />,
+  },
+  {
+    time: "17:00",
+    temperature: "24°",
+    icon: <IconCloudyMoon />,
+  },
+  {
+    time: "18:00",
+    temperature: "24°",
+    icon: <IconCloudyMoon />,
+  },
+];
 
 const Header = () => (
   <View
@@ -51,6 +114,59 @@ const Header = () => (
     </View>
   </View>
 );
+
+const WeatherCard = ({ item, selected }) => {
+  const CardContent = () => (
+    <View
+      style={{
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: selected ? "#11418D" : "transparent",
+        width: 70,
+        borderRadius: 20,
+        paddingVertical: 20,
+        gap: 20,
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 18,
+          color: "#fff",
+          fontFamily: "SFProDisplaySemiBold",
+        }}
+      >
+        {item.temperature}
+      </Text>
+      {item.icon}
+      <Text
+        style={{
+          fontSize: 18,
+          color: "#fff",
+          fontFamily: "SFProDisplaySemiBold",
+        }}
+      >
+        {item.time}
+      </Text>
+    </View>
+  );
+
+  return selected ? (
+    <LinearGradient
+      colors={["#5096FF", "#0044AB"]}
+      start={{ x: 1, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      style={{
+        overflow: "hidden",
+        borderRadius: 20,
+        padding: 1,
+      }}
+    >
+      <CardContent />
+    </LinearGradient>
+  ) : (
+    <CardContent />
+  );
+};
 
 export default function Home() {
   const colorScheme = useColorScheme();
@@ -117,6 +233,133 @@ export default function Home() {
       >
         <Header />
         <MainContent />
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginHorizontal: 36,
+            marginTop: 24,
+            paddingVertical: 8,
+            paddingHorizontal: 24,
+            backgroundColor: colors.background,
+            borderRadius: 20,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <IconRain />
+            <Text
+              style={{
+                fontSize: 14,
+                color: "#fff",
+                fontFamily: "SFProDisplayBold",
+              }}
+            >
+              {`30%`}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <IconHumidity />
+            <Text
+              style={{
+                fontSize: 14,
+                color: "#fff",
+                fontFamily: "SFProDisplayBold",
+              }}
+            >
+              {`90%`}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <IconWind />
+            <Text
+              style={{
+                fontSize: 14,
+                color: "#fff",
+                fontFamily: "SFProDisplayBold",
+              }}
+            >
+              {`19 km/h`}
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: "column",
+            // alignItems: "center",
+            // justifyContent: "space-between",
+            marginHorizontal: 36,
+            marginTop: 24,
+            paddingVertical: 12,
+            // paddingHorizontal: 24,
+            backgroundColor: colors.background,
+            borderRadius: 20,
+            gap: 12,
+          }}
+        >
+          <View
+            style={{
+              paddingHorizontal: 24,
+              flexDirection: "row",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                color: "#fff",
+                fontFamily: "SFProDisplayBold",
+              }}
+            >
+              Today
+            </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                color: "#fff",
+                fontFamily: "SFProDisplayRegular",
+              }}
+            >
+              Mar, 9
+            </Text>
+          </View>
+          <FlatList
+            data={mockData}
+            renderItem={({ item }) => (
+              <WeatherCard item={item} selected={true} />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            // ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
+            style={{
+              paddingLeft: 20,
+            }}
+            contentContainerStyle={{
+              gap: 20,
+              paddingRight: 40,
+            }}
+          />
+        </View>
       </View>
     </>
   );
@@ -133,9 +376,7 @@ const styles = (colors) =>
     },
     container: {
       flex: 1,
-      // alignItems: "center",
-      // justifyContent: "center",
-      gap: 10,
+      gap: 16,
     },
     fontTest: {
       fontSize: 18,
