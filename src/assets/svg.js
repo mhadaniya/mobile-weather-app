@@ -1,0 +1,10 @@
+export { default as Calendar } from "./src/calendar.svg"; // 24x24
+export { default as Cloudy } from "./src/cloudy.svg"; // 35x23
+export { default as CloudyDay } from "./src/cloudy_day.svg"; // 35x25
+export { default as CloudyMoon } from "./src/cloudy_moon.svg"; // 35x29
+export { default as Humidity } from "./src/humidity.svg"; // 24x24
+export { default as Map } from "./src/map.svg"; // 27x27
+export { default as Notif } from "./src/notif.svg"; // 27x27
+export { default as Opt } from "./src/opt.svg"; // 27x27
+export { default as Rain } from "./src/rain.svg"; // 24x24
+export { default as Wind } from "./src/wind.svg"; // 24x24

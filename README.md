@@ -18,7 +18,7 @@ Se você resolveu topar o desafio, vamos lá! Primeiro de tudo, faça o **fork**
 
 O resultado final deverá ser parecido com:
 
-![](images/thumbnail-figma.png)
+![](assets/images/thumbnail-figma.png)
 
 Esta tela pode ser encontrada neste [Figma Community](https://www.figma.com/community/file/1158928016905524023) criado pela [@becabelin](https://www.figma.com/@becabelin). Claro que uma ou outra coisa pode ser adaptada, mas essa adaptação depois poderá ser questionada na entrevista.
 
