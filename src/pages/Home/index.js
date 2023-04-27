@@ -28,133 +28,92 @@ import {
 const mockData = [
   {
     time: "11:00",
-    temperature: "24°",
+    temperature: "24",
+    selected: false,
     icon: <IconCloudy />,
   },
   {
     time: "12:00",
-    temperature: "24°",
+    temperature: "24",
+    selected: false,
     icon: <IconCloudyDay />,
   },
   {
     time: "13:00",
-    temperature: "24°",
+    temperature: "24",
+    selected: true,
     icon: <IconCloudyMoon />,
   },
   {
     time: "14:00",
-    temperature: "24°",
+    temperature: "24",
+    selected: false,
     icon: <IconCloudy />,
   },
   {
     time: "15:00",
-    temperature: "24°",
+    temperature: "24",
+    selected: false,
     icon: <IconCloudyDay />,
   },
   {
     time: "16:00",
-    temperature: "24°",
+    temperature: "24",
+    selected: false,
     icon: <IconCloudyMoon />,
   },
   {
     time: "17:00",
-    temperature: "24°",
+    temperature: "24",
+    selected: false,
     icon: <IconCloudyMoon />,
   },
   {
     time: "18:00",
-    temperature: "24°",
+    temperature: "24",
+    selected: false,
     icon: <IconCloudyMoon />,
   },
 ];
 
-const Header = () => (
-  <View
-    style={{
-      flexDirection: "row",
-      marginTop: 20,
-      paddingHorizontal: 20,
-      alignItems: "center",
-      justifyContent: "space-between",
-    }}
-  >
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 8,
-      }}
-    >
-      <IconMap />
-      <Text
-        style={{
-          fontSize: 18,
-          color: "#fff",
-          fontFamily: "SFProDisplaySemiBold",
-        }}
-      >
-        Hello World
-      </Text>
-      <IconOpt />
-    </View>
-    <View>
-      <View style={{ position: "absolute", top: 0, right: 0, zIndex: 1 }}>
-        <View
-          style={{
-            width: 11,
-            height: 11,
-            borderRadius: 100,
-            borderWidth: 1.4,
-            borderColor: "#47BBE1",
-            backgroundColor: "#FF7C7C",
-          }}
-        />
+const Header = () => {
+  const colorScheme = useColorScheme();
+  // const colors = colorScheme === "dark" ? darkColors : lightColors;
+  const colors = darkColors;
+  return (
+    <View style={styles(colors).headerContainer}>
+      <View style={styles(colors).locationContainer}>
+        <IconMap />
+        <Text style={styles(colors).semiBoldText}>São paulo</Text>
+        <IconOpt />
       </View>
-      <IconNotif />
+      <View>
+        <View style={{ position: "absolute", top: 0, right: 0, zIndex: 1 }}>
+          <View style={styles(colors).notificationMark} />
+        </View>
+        <IconNotif />
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 const WeatherCard = ({ item, selected }) => {
+  const colorScheme = useColorScheme();
+  // const colors = colorScheme === "dark" ? darkColors : lightColors;
+  const colors = darkColors;
   const CardContent = () => (
-    <View
-      style={{
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: selected ? "#11418D" : "transparent",
-        width: 70,
-        borderRadius: 20,
-        paddingVertical: 20,
-        gap: 20,
-      }}
-    >
-      <Text
-        style={{
-          fontSize: 18,
-          color: "#fff",
-          fontFamily: "SFProDisplaySemiBold",
-        }}
-      >
-        {item.temperature}
-      </Text>
+    <View style={styles(colors).weatherCardContainer(selected)}>
+      <Text style={styles(colors).regularText}>{`${item.temperature}ºC`}</Text>
       {item.icon}
-      <Text
-        style={{
-          fontSize: 18,
-          color: "#fff",
-          fontFamily: "SFProDisplaySemiBold",
-        }}
-      >
-        {item.time}
-      </Text>
+      <Text style={styles(colors).regularText}>{item.time}</Text>
     </View>
   );
 
   return selected ? (
     <LinearGradient
       colors={["#5096FF", "#0044AB"]}
-      start={{ x: 1, y: 0 }}
-      end={{ x: 0, y: 1 }}
+      start={{ x: 1.5, y: 0.4 }}
+      end={{ x: 0, y: 1.1 }}
       style={{
         overflow: "hidden",
         borderRadius: 20,
@@ -175,13 +134,7 @@ export default function Home() {
   const insets = useSafeAreaInsets();
 
   const MainContent = () => (
-    <View
-      style={{
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-      }}
-    >
+    <View style={styles(colors).mainContentContainer}>
       <Image
         source={
           colorScheme === "dark"
@@ -190,23 +143,15 @@ export default function Home() {
         }
         style={{ width: 300, height: 200 }}
       />
+      <Text style={styles(colors).mainContentTitle}>{`30º`}</Text>
       <Text
-        style={{
-          fontSize: 64,
-          color: "#fff",
-          fontFamily: "SFProDisplaySemiBold",
-          textAlign: "center",
-        }}
-      >
-        30º
-      </Text>
-      <Text
-        style={{
-          fontSize: 18,
-          color: "#fff",
-          fontFamily: "SFProDisplayRegular",
-          textAlign: "center",
-        }}
+        style={[
+          styles(colors).regularText,
+          {
+            textAlign: "center",
+            textShadowColor: "transparent",
+          },
+        ]}
       >
         {`Precipitations\nMax.:34º   Min.:28º`}
       </Text>
@@ -216,7 +161,7 @@ export default function Home() {
   return (
     <>
       <LinearGradient
-        colors={colors.gradient} // change later
+        colors={colors.gradient}
         style={styles(colors).background}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -234,128 +179,54 @@ export default function Home() {
         <Header />
         <MainContent />
         <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginHorizontal: 36,
-            marginTop: 24,
-            paddingVertical: 8,
-            paddingHorizontal: 24,
-            backgroundColor: colors.background,
-            borderRadius: 20,
-          }}
+          style={[
+            styles(colors).generalContainer,
+            {
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingHorizontal: 24,
+            },
+          ]}
         >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 5,
-            }}
-          >
+          <View style={styles(colors).attributeContainer}>
             <IconRain />
-            <Text
-              style={{
-                fontSize: 14,
-                color: "#fff",
-                fontFamily: "SFProDisplayBold",
-              }}
-            >
-              {`30%`}
-            </Text>
+            <Text style={styles(colors).attributeText}>{`30%`}</Text>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 5,
-            }}
-          >
+          <View style={styles(colors).attributeContainer}>
             <IconHumidity />
-            <Text
-              style={{
-                fontSize: 14,
-                color: "#fff",
-                fontFamily: "SFProDisplayBold",
-              }}
-            >
-              {`90%`}
-            </Text>
+            <Text style={styles(colors).attributeText}>{`90%`}</Text>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 5,
-            }}
-          >
+          <View style={styles(colors).attributeContainer}>
             <IconWind />
-            <Text
-              style={{
-                fontSize: 14,
-                color: "#fff",
-                fontFamily: "SFProDisplayBold",
-              }}
-            >
-              {`19 km/h`}
-            </Text>
+            <Text style={styles(colors).attributeText}>{`19 km/h`}</Text>
           </View>
         </View>
         <View
-          style={{
-            flexDirection: "column",
-            // alignItems: "center",
-            // justifyContent: "space-between",
-            marginHorizontal: 36,
-            marginTop: 24,
-            paddingVertical: 12,
-            // paddingHorizontal: 24,
-            backgroundColor: colors.background,
-            borderRadius: 20,
-            gap: 12,
-          }}
+          style={[
+            styles(colors).generalContainer,
+            {
+              flexDirection: "column",
+            },
+          ]}
         >
-          <View
-            style={{
-              paddingHorizontal: 24,
-              flexDirection: "row",
-              alignItems: "baseline",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                color: "#fff",
-                fontFamily: "SFProDisplayBold",
-              }}
-            >
-              Today
-            </Text>
-            <Text
-              style={{
-                fontSize: 18,
-                color: "#fff",
-                fontFamily: "SFProDisplayRegular",
-              }}
-            >
-              Mar, 9
-            </Text>
+          <View style={styles(colors).titleContainer}>
+            <Text style={styles(colors).boldText}>Today</Text>
+            <Text style={styles(colors).regularText}>Mar, 9</Text>
           </View>
           <FlatList
             data={mockData}
             renderItem={({ item }) => (
-              <WeatherCard item={item} selected={true} />
+              <WeatherCard item={item} selected={item.selected} />
             )}
             keyExtractor={(item, index) => index.toString()}
             horizontal
             showsHorizontalScrollIndicator={false}
-            // ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
             style={{
               paddingLeft: 20,
             }}
             contentContainerStyle={{
-              gap: 20,
+              gap: 12,
               paddingRight: 40,
             }}
           />
@@ -378,8 +249,95 @@ const styles = (colors) =>
       flex: 1,
       gap: 16,
     },
-    fontTest: {
+    generalContainer: {
+      marginHorizontal: 36,
+      marginTop: 24,
+      paddingVertical: 12,
+      backgroundColor: colors.background,
+      borderRadius: 20,
+      gap: 12,
+    },
+    mainContentContainer: {
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+    },
+    mainContentTitle: {
+      fontSize: 64,
+      color: "#fff",
+      fontFamily: "SFProDisplaySemiBold",
+      textAlign: "center",
+    },
+    titleContainer: {
+      paddingHorizontal: 24,
+      flexDirection: "row",
+      alignItems: "baseline",
+      justifyContent: "space-between",
+    },
+    boldText: {
+      fontSize: 20,
+      color: "#fff",
+      fontFamily: "SFProDisplayBold",
+      textShadowOffset: {
+        width: -2,
+        height: 3,
+      },
+      textShadowRadius: 4,
+      textShadowColor: "rgba(0, 0, 0, 0.1)",
+    },
+    semiBoldText: {
       fontSize: 18,
       color: "#fff",
+      fontFamily: "SFProDisplaySemiBold",
+    },
+    regularText: {
+      fontSize: 18,
+      color: "#fff",
+      fontFamily: "SFProDisplayRegular",
+      textShadowOffset: {
+        width: -2,
+        height: 3,
+      },
+      textShadowRadius: 4,
+      textShadowColor: "rgba(0, 0, 0, 0.1)",
+    },
+    attributeContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 5,
+    },
+    attributeText: {
+      fontSize: 14,
+      color: "#fff",
+      fontFamily: "SFProDisplayBold",
+    },
+    weatherCardContainer: (selected) => ({
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: selected ? "#11418D" : "transparent",
+      width: 70,
+      borderRadius: 20,
+      paddingVertical: 20,
+      gap: 20,
+    }),
+    headerContainer: {
+      flexDirection: "row",
+      marginTop: 20,
+      paddingHorizontal: 20,
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+    locationContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+    },
+    notificationMark: {
+      width: 11,
+      height: 11,
+      borderRadius: 100,
+      borderWidth: 1.4,
+      borderColor: "#47BBE1",
+      backgroundColor: "#FF7C7C",
     },
   });
