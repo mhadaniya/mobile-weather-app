@@ -16,9 +16,13 @@ class _DropDownState extends State<DropDown> {
 
     return DropdownButton<String>(
       value: dropdownValue,
-      icon: const Icon(
-        Icons.keyboard_arrow_down_outlined,
-        color: Colors.white,
+      // ignore: prefer_const_constructors
+      icon: Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: const Icon(
+          Icons.keyboard_arrow_down_outlined,
+          color: Colors.white,
+        ),
       ),
       elevation: 16,
       style: const TextStyle(
