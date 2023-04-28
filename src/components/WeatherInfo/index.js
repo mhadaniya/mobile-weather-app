@@ -4,61 +4,57 @@ import { LinearGradient } from "expo-linear-gradient";
 import { darkColors, lightColors } from "../../styles/colors";
 import { IconCloudy, IconCloudyDay, IconCloudyMoon } from "../../assets/svg";
 
-const mockData = [
-  {
-    time: "11:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudy />,
-  },
-  {
-    time: "12:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudyDay />,
-  },
-  {
-    time: "13:00",
-    temperature: "24",
-    selected: true,
-    icon: <IconCloudyMoon />,
-  },
-  {
-    time: "14:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudy />,
-  },
-  {
-    time: "15:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudyDay />,
-  },
-  {
-    time: "16:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudyMoon />,
-  },
-  {
-    time: "17:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudyMoon />,
-  },
-  {
-    time: "18:00",
-    temperature: "24",
-    selected: false,
-    icon: <IconCloudyMoon />,
-  },
-];
+const generateMockData = (weatherData) => {
+  if (!weatherData) {
+    return [];
+  }
 
-export default function WeatherInfo() {
+  const { time, forecast } = weatherData;
+  const [currentHour, currentMinute] = time
+    .split(":")
+    .map((t) => parseInt(t, 10));
+  const { min, max } = forecast[0];
+
+  const getTimeString = (hour) => {
+    const hourString = hour.toString().padStart(2, "0");
+    return `${hourString}:00`;
+  };
+
+  const getTemperature = () => {
+    const temperature = Math.floor(Math.random() * (max - min + 1)) + min;
+    return temperature;
+  };
+
+  const getIcon = (hour) => {
+    if (hour < 6 || hour >= 18) {
+      return <IconCloudyMoon />;
+    } else if (hour < 12) {
+      return <IconCloudyDay />;
+    } else {
+      return <IconCloudy />;
+    }
+  };
+
+  const data = [];
+
+  for (let i = -2; i < 6; i++) {
+    const hour = (currentHour + i) % 24;
+    const time = getTimeString(hour);
+    const temperature = getTemperature(hour);
+    const selected = i === 0;
+    const icon = getIcon(hour);
+
+    data.push({ time, temperature, selected, icon });
+  }
+
+  return data;
+};
+
+export default function WeatherInfo({ weatherData }) {
   const colorScheme = useColorScheme();
   // const colors = useColorScheme() === "dark" ? darkColors : lightColors;
   const colors = darkColors;
+  const mockData = generateMockData(weatherData);
 
   const WeatherCard = ({ item, selected }) => {
     const CardContent = () => (

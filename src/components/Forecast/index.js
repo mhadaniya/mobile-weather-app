@@ -3,22 +3,60 @@ import { View, Text, StyleSheet, useColorScheme, Image } from "react-native";
 import { darkColors, lightColors } from "../../styles/colors";
 import { IconCalendar } from "../../assets/svg";
 
-export default function Forecast() {
+const WeekDayParser = (day) => {
+  switch (day) {
+    case "Dom":
+      return "Domingo";
+    case "Seg":
+      return "Segunda";
+    case "Ter":
+      return "Terça";
+    case "Qua":
+      return "Quarta";
+    case "Qui":
+      return "Quinta";
+    case "Sex":
+      return "Sexta";
+    case "Sáb":
+      return "Sábado";
+    default:
+      return "Dia";
+  }
+};
+
+export default function Forecast({ weatherData }) {
   const colorScheme = useColorScheme();
   // const colors = useColorScheme() === "dark" ? darkColors : lightColors;
   const colors = darkColors;
 
-  const ForecastRow = () => {
+  const nextForecasts = weatherData.forecast.slice(
+    1,
+    weatherData.forecast.length
+  );
+
+  const ForecastRow = ({ forecast, position }) => {
+    const randomBoolean = Math.random() >= 0.5;
     return (
-      <View style={styles(colors).forecastRowContainer}>
-        <Text style={styles(colors).forecastBoldText}>Monday</Text>
-        <Image
-          source={require("../../assets/images/CloudStorm.png")}
-          style={{ width: 50, height: 50 }}
-        />
+      <View style={styles(colors).forecastRowContainer} key={position}>
+        <Text style={styles(colors).forecastBoldText}>
+          {WeekDayParser(forecast.weekday)}
+        </Text>
+        {randomBoolean ? (
+          <Image
+            source={require("../../assets/images/CloudStorm.png")}
+            style={{ width: 50, height: 50 }}
+          />
+        ) : (
+          <Image
+            source={require("../../assets/images/RainDrops.png")}
+            style={{ width: 50, height: 50 }}
+          />
+        )}
         <View style={styles(colors).forecastTemperatureContainer}>
           <View flexDirection={"row"}>
-            <Text style={styles(colors).forecastMediumText("#fff")}>13</Text>
+            <Text style={styles(colors).forecastMediumText("#fff")}>
+              {forecast.max}
+            </Text>
             <Text style={styles(colors).forecastMediumTextSuperscript("#fff")}>
               ºC
             </Text>
@@ -27,7 +65,7 @@ export default function Forecast() {
             <Text
               style={styles(colors).forecastMediumText("rgba(255,255,255,0.5)")}
             >
-              10
+              {forecast.min}
             </Text>
             <Text
               style={styles(colors).forecastMediumTextSuperscript(
@@ -45,10 +83,12 @@ export default function Forecast() {
   return (
     <View style={styles(colors).generalContainer} flexDirection={"column"}>
       <View style={styles(colors).titleContainer}>
-        <Text style={styles(colors).boldText}>Next Forecast</Text>
+        <Text style={styles(colors).boldText}>Próximas Previsões</Text>
         <IconCalendar />
       </View>
-      <ForecastRow />
+      {nextForecasts.map((forecast, index) => (
+        <ForecastRow forecast={forecast} key={index} />
+      ))}
     </View>
   );
 }
@@ -90,10 +130,13 @@ const styles = (colors) =>
       fontFamily: "AlegreyaSans_700Bold",
       fontSize: 18,
       color: "#fff",
+      width: "30%",
     },
     forecastTemperatureContainer: {
       flexDirection: "row",
       gap: 10,
+      width: "30%",
+      justifyContent: "flex-end",
     },
     forecastMediumText: (color) => ({
       fontFamily: "AlegreyaSans_500Medium",

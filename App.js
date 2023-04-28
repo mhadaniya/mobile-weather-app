@@ -1,10 +1,17 @@
-import React, { useCallback, useEffect } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useContext,
+  createContext,
+} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import * as SplashScreen from "expo-splash-screen";
 import { atom, useAtom } from "jotai";
 import axios from "axios";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Routes from "./src/routes";
+import WeatherDataContext from "./src/context/WeatherDataContext";
 
 import {
   useFonts,
@@ -12,19 +19,17 @@ import {
   AlegreyaSans_700Bold,
 } from "@expo-google-fonts/alegreya-sans";
 
-export const weatherDataAtom = atom(null);
-
 const fetchWeatherData = async (setWeatherData) => {
   try {
     const response = await axios.get("https://api.hgbrasil.com/weather");
-    setWeatherData(response.data);
+    setWeatherData(response.data.results);
   } catch (error) {
     console.error("Error:", error);
   }
 };
 
 export default function App() {
-  const [weatherData, setWeatherData] = useAtom(weatherDataAtom);
+  const [weatherData, setWeatherData] = useState(null);
   let [fontsLoaded] = useFonts({
     AlegreyaSans_500Medium,
     AlegreyaSans_700Bold,
@@ -51,9 +56,11 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer onReady={loadData}>
-        <Routes />
-      </NavigationContainer>
+      <WeatherDataContext.Provider value={weatherData}>
+        <NavigationContainer onReady={loadData}>
+          <Routes />
+        </NavigationContainer>
+      </WeatherDataContext.Provider>
     </SafeAreaProvider>
   );
 }

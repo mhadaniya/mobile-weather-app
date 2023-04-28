@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, useColorScheme } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  useColorScheme,
+  TouchableOpacity,
+} from "react-native";
 import { darkColors, lightColors } from "../../styles/colors";
 import {
   IconHumidity,
@@ -9,8 +15,9 @@ import {
   IconRain,
   IconWind,
 } from "../../assets/svg";
+import { FontAwesome } from "@expo/vector-icons";
 
-export default function Header() {
+export default function Header({ weatherData }) {
   const colorScheme = useColorScheme();
   // const colors = colorScheme === "dark" ? darkColors : lightColors;
   const colors = darkColors;
@@ -19,10 +26,14 @@ export default function Header() {
     <View style={styles(colors).headerContainer}>
       <View style={styles(colors).locationContainer}>
         <IconMap />
-        <Text style={styles(colors).semiBoldText}>São paulo</Text>
+        <Text style={styles(colors).semiBoldText}>{weatherData.city_name}</Text>
         <IconOpt />
       </View>
-      <View>
+      <View flexDirection={"row"} gap={20} alignItems={"center"}>
+        <TouchableOpacity style={{ paddingHorizontal: 8 }}>
+          <FontAwesome name="gear" size={25} color="white" />
+        </TouchableOpacity>
+
         <View style={{ position: "absolute", top: 0, right: 0, zIndex: 1 }}>
           <View style={styles(colors).notificationMark} />
         </View>

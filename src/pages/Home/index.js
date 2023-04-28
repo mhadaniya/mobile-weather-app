@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,19 +15,20 @@ import Forecast from "../../components/Forecast";
 import Attributes from "../../components/Attributes";
 import Header from "../../components/Header";
 import WeatherInfo from "../../components/WeatherInfo";
-import { useAtom } from "jotai";
-import { weatherDataAtom } from "../../../App";
+import useWeatherData from "../../hooks/useWeatherData";
+
+// import { weatherDataAtom } from "../../atoms";
 
 export default function Home() {
   const colorScheme = useColorScheme();
   // const colors = colorScheme === "dark" ? darkColors : lightColors;
   const colors = darkColors;
   const insets = useSafeAreaInsets();
-  const [weatherData] = useAtom(weatherDataAtom);
 
-  useEffect(() => {
-    console.log(weatherData);
-  }, [weatherData]);
+  // const [weatherData] = useAtom(weatherDataAtom);
+  const weatherData = useWeatherData();
+
+  const todayForecast = weatherData.forecast[0];
 
   return (
     <>
@@ -47,7 +48,7 @@ export default function Home() {
           },
         ]}
       >
-        <Header />
+        <Header weatherData={weatherData} />
         <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
           <View style={styles(colors).mainContentContainer}>
             <Image
@@ -58,7 +59,9 @@ export default function Home() {
               }
               style={{ width: 300, height: 200 }}
             />
-            <Text style={styles(colors).mainContentTitle}>{`30º`}</Text>
+            <Text
+              style={styles(colors).mainContentTitle}
+            >{`${weatherData.temp}º`}</Text>
             <Text
               style={[
                 styles(colors).regularText,
@@ -68,12 +71,12 @@ export default function Home() {
                 },
               ]}
             >
-              {`Precipitations\nMax.:34º   Min.:28º`}
+              {`${weatherData.description}\nMax.:${todayForecast.max}º   Min.:${todayForecast.min}º`}
             </Text>
           </View>
-          <Attributes />
-          <WeatherInfo />
-          <Forecast />
+          <Attributes weatherData={weatherData} />
+          <WeatherInfo weatherData={weatherData} />
+          <Forecast weatherData={weatherData} />
         </ScrollView>
       </View>
     </>
