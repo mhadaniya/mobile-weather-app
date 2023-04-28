@@ -16,16 +16,15 @@ import Attributes from "../../components/Attributes";
 import Header from "../../components/Header";
 import WeatherInfo from "../../components/WeatherInfo";
 import useWeatherData from "../../hooks/useWeatherData";
-
-// import { weatherDataAtom } from "../../atoms";
+import { useAtom } from "jotai";
+import { colorSchemeAtom } from "../../atoms";
 
 export default function Home() {
-  const colorScheme = useColorScheme();
-  // const colors = colorScheme === "dark" ? darkColors : lightColors;
-  const colors = darkColors;
+  const [colorScheme] = useAtom(colorSchemeAtom);
+
+  const colors = colorScheme.type === "dark" ? darkColors : lightColors;
   const insets = useSafeAreaInsets();
 
-  // const [weatherData] = useAtom(weatherDataAtom);
   const weatherData = useWeatherData();
 
   const todayForecast = weatherData.forecast[0];
@@ -53,7 +52,7 @@ export default function Home() {
           <View style={styles(colors).mainContentContainer}>
             <Image
               source={
-                colorScheme === "dark"
+                colorScheme.type === "dark"
                   ? require("../../assets/images/Dark.png")
                   : require("../../assets/images/Light.png")
               }

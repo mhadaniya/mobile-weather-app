@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, useColorScheme, FlatList } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { darkColors, lightColors } from "../../styles/colors";
 import { IconCloudy, IconCloudyDay, IconCloudyMoon } from "../../assets/svg";
+import { useAtom } from "jotai";
+import { colorSchemeAtom } from "../../atoms";
 
 const generateMockData = (weatherData) => {
   if (!weatherData) {
@@ -51,9 +53,10 @@ const generateMockData = (weatherData) => {
 };
 
 export default function WeatherInfo({ weatherData }) {
-  const colorScheme = useColorScheme();
-  // const colors = useColorScheme() === "dark" ? darkColors : lightColors;
-  const colors = darkColors;
+  const [colorScheme] = useAtom(colorSchemeAtom);
+
+  const colors = colorScheme.type === "dark" ? darkColors : lightColors;
+
   const mockData = generateMockData(weatherData);
 
   const WeatherCard = ({ item, selected }) => {
@@ -69,7 +72,7 @@ export default function WeatherInfo({ weatherData }) {
 
     return selected ? (
       <LinearGradient
-        colors={["#5096FF", "#0044AB"]}
+        colors={colors.selectedGradient}
         start={{ x: 1.5, y: 0.4 }}
         end={{ x: 0, y: 1.1 }}
         style={{
@@ -88,7 +91,7 @@ export default function WeatherInfo({ weatherData }) {
   return (
     <View style={styles(colors).generalContainer} flexDirection={"column"}>
       <View style={styles(colors).titleContainer}>
-        <Text style={styles(colors).boldText}>Today</Text>
+        <Text style={styles(colors).boldText}>Hoje</Text>
         <Text style={styles(colors).regularText}>Mar, 9</Text>
       </View>
       <FlatList
@@ -157,7 +160,7 @@ const styles = (colors) =>
     weatherCardContainer: (selected) => ({
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: selected ? "#11418D" : "transparent",
+      backgroundColor: selected ? colors.selectedBackground : "transparent",
       width: 70,
       borderRadius: 20,
       paddingVertical: 20,

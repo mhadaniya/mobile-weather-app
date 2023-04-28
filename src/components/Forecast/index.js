@@ -2,8 +2,10 @@ import React from "react";
 import { View, Text, StyleSheet, useColorScheme, Image } from "react-native";
 import { darkColors, lightColors } from "../../styles/colors";
 import { IconCalendar } from "../../assets/svg";
+import { useAtom } from "jotai";
+import { colorSchemeAtom } from "../../atoms";
 
-const WeekDayParser = (day) => {
+const weekDayParser = (day) => {
   switch (day) {
     case "Dom":
       return "Domingo";
@@ -25,9 +27,9 @@ const WeekDayParser = (day) => {
 };
 
 export default function Forecast({ weatherData }) {
-  const colorScheme = useColorScheme();
-  // const colors = useColorScheme() === "dark" ? darkColors : lightColors;
-  const colors = darkColors;
+  const [colorScheme] = useAtom(colorSchemeAtom);
+
+  const colors = colorScheme.type === "dark" ? darkColors : lightColors;
 
   const nextForecasts = weatherData.forecast.slice(
     1,
@@ -39,7 +41,7 @@ export default function Forecast({ weatherData }) {
     return (
       <View style={styles(colors).forecastRowContainer} key={position}>
         <Text style={styles(colors).forecastBoldText}>
-          {WeekDayParser(forecast.weekday)}
+          {weekDayParser(forecast.weekday)}
         </Text>
         {randomBoolean ? (
           <Image

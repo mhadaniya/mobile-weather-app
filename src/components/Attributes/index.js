@@ -2,11 +2,13 @@ import React from "react";
 import { View, Text, StyleSheet, useColorScheme } from "react-native";
 import { darkColors, lightColors } from "../../styles/colors";
 import { IconHumidity, IconRain, IconWind } from "../../assets/svg";
+import { useAtom } from "jotai";
+import { colorSchemeAtom } from "../../atoms";
 
 export default function Attributes({ weatherData }) {
-  const colorScheme = useColorScheme();
-  // const colors = useColorScheme() === "dark" ? darkColors : lightColors;
-  const colors = darkColors;
+  const [colorScheme] = useAtom(colorSchemeAtom);
+
+  const colors = colorScheme.type === "dark" ? darkColors : lightColors;
 
   const todayForecast = weatherData.forecast[0];
 

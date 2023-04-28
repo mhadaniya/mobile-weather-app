@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -15,12 +15,25 @@ import {
   IconRain,
   IconWind,
 } from "../../assets/svg";
-import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import SettingsModal from "../../components/SettingsModal";
+import { useAtom } from "jotai";
+import { colorSchemeAtom } from "../../atoms";
 
 export default function Header({ weatherData }) {
-  const colorScheme = useColorScheme();
-  // const colors = colorScheme === "dark" ? darkColors : lightColors;
-  const colors = darkColors;
+  const [colorScheme] = useAtom(colorSchemeAtom);
+
+  const colors = colorScheme.type === "dark" ? darkColors : lightColors;
+
+  const [isSettingsModalVisible, setIsSettingsModalVisible] = useState(false);
+
+  const handleOpenSettingsModal = () => {
+    setIsSettingsModalVisible(true);
+  };
+
+  const handleCloseSettingsModal = () => {
+    setIsSettingsModalVisible(false);
+  };
 
   return (
     <View style={styles(colors).headerContainer}>
@@ -30,8 +43,15 @@ export default function Header({ weatherData }) {
         <IconOpt />
       </View>
       <View flexDirection={"row"} gap={20} alignItems={"center"}>
-        <TouchableOpacity style={{ paddingHorizontal: 8 }}>
-          <FontAwesome name="gear" size={25} color="white" />
+        <TouchableOpacity
+          style={{ paddingHorizontal: 8 }}
+          onPress={handleOpenSettingsModal}
+        >
+          {colorScheme.type === "dark" ? (
+            <Ionicons name="ios-moon" size={25} color="white" />
+          ) : (
+            <Ionicons name="sunny" size={25} color="white" />
+          )}
         </TouchableOpacity>
 
         <View style={{ position: "absolute", top: 0, right: 0, zIndex: 1 }}>
@@ -39,6 +59,12 @@ export default function Header({ weatherData }) {
         </View>
         <IconNotif />
       </View>
+      <SettingsModal
+        isVisible={isSettingsModalVisible}
+        onClose={handleCloseSettingsModal}
+        currentTime={weatherData.currently}
+        setIsSettingsModalVisible={setIsSettingsModalVisible}
+      />
     </View>
   );
 }
