@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 
 import '../utils/weather_codes.dart';
 
@@ -18,6 +19,11 @@ class Forecast extends StatefulWidget {
 }
 
 class _ForecastState extends State<Forecast> {
+  String getDayName(String date) {
+    DateTime parsedDate = DateTime.parse(date);
+    return DateFormat('EEEE').format(parsedDate);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -58,7 +64,7 @@ class _ForecastState extends State<Forecast> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    day.toString(),
+                    getDayName(day.toString()),
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'AlegreySans-Regular',

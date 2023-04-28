@@ -52,6 +52,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    dynamic time;
+    dynamic index;
+    if (apiData != null) {
+      time = apiData["current_weather"]["time"];
+      index = apiData["hourly"]["time"].indexOf(time);
+    }
     return apiData != null
         ? Scaffold(
             backgroundColor: apiData["current_weather"]["weathercode"] > 60
@@ -89,10 +95,10 @@ class _HomePageState extends State<HomePage> {
                     max: apiData["daily"]["temperature_2m_max"][0].toString(),
                     windSpeed:
                         apiData["current_weather"]["windspeed"].toString(),
-                    humidity:
-                        apiData["hourly"]["relativehumidity_2m"][0].toString(),
+                    humidity: apiData["hourly"]["relativehumidity_2m"][index]
+                        .toString(),
                     precipitationPercentage: apiData["hourly"]
-                            ["precipitation_probability"][0]
+                            ["precipitation_probability"][index]
                         .toString(),
                     weatherCode:
                         apiData["current_weather"]["weathercode"].toString(),
