@@ -1,20 +1,32 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../utils/weather_codes.dart';
+
 class WheatherSummary extends StatefulWidget {
   final String temperature;
   final String min;
   final String max;
+  final String windSpeed;
+  final String humidity;
+  final String precipitationPercentage;
+  final String weatherCode;
 
 // color variable
 
   const WheatherSummary(
-      {super.key,
+      {Key? key,
       required this.temperature,
       required this.min,
-      required this.max});
+      required this.max,
+      required this.windSpeed,
+      required this.humidity,
+      required this.precipitationPercentage,
+      required this.weatherCode})
+      : super(key: key);
 
   @override
   State<WheatherSummary> createState() => _WheatherSummaryState();
@@ -30,7 +42,9 @@ class _WheatherSummaryState extends State<WheatherSummary> {
             margin: EdgeInsets.only(right: 10, left: 10),
             width: 284,
             height: 207,
-            child: Image.asset("./assets/images/sun_cloud.png"),
+            child: int.parse(widget.weatherCode) > 60
+                ? Image.asset("./assets/images/sun_cloud_rain.png")
+                : Image.asset("./assets/images/sun_cloud.png"),
           ),
         ),
         Column(
@@ -39,19 +53,27 @@ class _WheatherSummaryState extends State<WheatherSummary> {
               widget.temperature + "º",
               style: TextStyle(
                   fontSize: 64,
+                  fontFamily: 'SFProDisplay-regular',
                   fontWeight: FontWeight.w600,
+                  //fontFamily: 'SFProDisplay-regular',
                   color: Colors.white),
             ),
             Text(
-              "Precipitations",
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              weatherInterpretation[widget.weatherCode]["description"],
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+              ),
             ),
             SizedBox(
               height: 5,
             ),
             Text(
               "Max.: ${widget.max}º Min.: ${widget.min}º",
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+              ),
             ),
           ],
         ),
@@ -76,7 +98,7 @@ class _WheatherSummaryState extends State<WheatherSummary> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
-                        "5%",
+                        "${widget.precipitationPercentage}%",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
@@ -93,7 +115,7 @@ class _WheatherSummaryState extends State<WheatherSummary> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
-                        "65%",
+                        "${widget.humidity}%",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
@@ -110,7 +132,7 @@ class _WheatherSummaryState extends State<WheatherSummary> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
-                        "25 Km/h",
+                        "${widget.windSpeed} Km/h",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
