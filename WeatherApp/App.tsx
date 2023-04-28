@@ -33,7 +33,7 @@ const baseUrl = 'https://api.hgbrasil.com/weather?key=581fed9e';
 const LocationImage = require('./assets/local.png');
 
 function App(): JSX.Element {
-  const isDarkMode = true;
+  const isDarkMode = false;
   const [data, setdata] = useState({});
   const [today, setToday] = useState({});
   const [forecast, setforecast] = useState([]);
@@ -92,6 +92,20 @@ function App(): JSX.Element {
               }°
             </Text>
           </View>
+          <View style={{ flex: 1, flexDirection: 'row', marginVertical: 30, paddingHorizontal: 25, paddingVertical: 15, borderRadius: 22, backgroundColor: isDarkMode ? '#001026' : '#1580ae' }} >
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Image style={styles.WeatherIcons} source={require('./assets/chuva.png')} />
+              <Text style={styles.Text}>{today.rain_probability}%</Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Image style={{ width: 14, height: 20, marginHorizontal: 10 }} source={require('./assets/humidade.png')} />
+              <Text style={styles.Text}>{data.humidity}%</Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Image style={styles.WeatherIcons} source={require('./assets/wind.png')} />
+              <Text style={styles.Text}>{today.wind_speedy}</Text>
+            </View>
+          </View>
         </View>
       </ScrollView>
     </LinearGradient>
@@ -137,7 +151,7 @@ const styles = StyleSheet.create({
     
   },
   WeatherIcons: {
-    width: 18,
+    width: 19,
     height: 19,
     marginHorizontal:10,
   },
