@@ -38,7 +38,7 @@ const generateMockData = (weatherData) => {
 
   const data = [];
 
-  for (let i = -2; i < 6; i++) {
+  for (let i = -2; i < 10; i++) {
     const hour = (currentHour + i) % 24;
     const parsedTime = getTimeString(hour);
     const temperature = getTemperature(hour);

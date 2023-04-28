@@ -54,7 +54,9 @@ export default function SettingsModal({
     {
       type: "default",
       source: "default",
-      label: `Automático - ${useColorScheme() === "dark" ? "Escuro" : "Claro"}`,
+      label: `Preferência do Sistema - ${
+        systemColorScheme === "dark" ? "Escuro" : "Claro"
+      }`,
     },
   ];
 
