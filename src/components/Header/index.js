@@ -32,10 +32,7 @@ export default function Header({ weatherData }) {
         <IconOpt />
       </View>
       <View flexDirection={"row"} gap={20} alignItems={"center"}>
-        <TouchableOpacity
-          style={{ paddingHorizontal: 8 }}
-          onPress={handleOpenSettingsModal}
-        >
+        <TouchableOpacity onPress={handleOpenSettingsModal}>
           {colorScheme.type === "dark" ? (
             <Ionicons name="ios-moon" size={25} color="white" />
           ) : (
@@ -43,7 +40,7 @@ export default function Header({ weatherData }) {
           )}
         </TouchableOpacity>
 
-        <View style={{ position: "absolute", top: 0, right: 0, zIndex: 1 }}>
+        <View style={styles(colors).notificationContainer}>
           <View style={styles(colors).notificationMark} />
         </View>
         <IconNotif />
@@ -76,6 +73,12 @@ const styles = (colors) =>
       flexDirection: "row",
       alignItems: "center",
       gap: 8,
+    },
+    notificationContainer: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      zIndex: 1,
     },
     notificationMark: {
       width: 11,

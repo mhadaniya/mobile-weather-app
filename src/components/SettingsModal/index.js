@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -17,7 +17,6 @@ export default function SettingsModal({
   currentTime,
   setIsSettingsModalVisible,
 }) {
-  const [mode, setMode] = useState("default");
   const systemColorScheme = useColorScheme();
   const [colorScheme, setColorScheme] = useAtom(colorSchemeAtom);
 

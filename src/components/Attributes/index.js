@@ -15,15 +15,11 @@ export default function Attributes({ weatherData }) {
 
   return (
     <View
-      style={[
-        styles(colors).generalContainer,
-        {
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          paddingHorizontal: 24,
-        },
-      ]}
+      style={styles(colors).generalContainer}
+      flexDirection={"row"}
+      alignItems={"center"}
+      justifyContent={"space-between"}
+      paddingHorizontal={24}
     >
       <View style={styles(colors).attributeContainer}>
         <IconRain />

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
@@ -47,12 +48,12 @@ export default function Forecast({ weatherData }) {
         {randomBoolean ? (
           <Image
             source={require("../../assets/images/CloudStorm.png")}
-            style={{ width: 50, height: 50 }}
+            style={styles(colors).forecastImage}
           />
         ) : (
           <Image
             source={require("../../assets/images/RainDrops.png")}
-            style={{ width: 50, height: 50 }}
+            style={styles(colors).forecastImage}
           />
         )}
         <View style={styles(colors).forecastTemperatureContainer}>
@@ -153,4 +154,5 @@ const styles = (colors) =>
       lineHeight: 22,
       color: color,
     }),
+    forecastImage: { width: 50, height: 50 },
   });

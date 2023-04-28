@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -12,9 +13,7 @@ const generateMockData = (weatherData) => {
   }
 
   const { time, forecast } = weatherData;
-  const [currentHour, currentMinute] = time
-    .split(":")
-    .map((t) => parseInt(t, 10));
+  const [currentHour] = time.split(":").map((t) => parseInt(t, 10));
   const { min, max } = forecast[0];
 
   const getTimeString = (hour) => {
@@ -41,12 +40,12 @@ const generateMockData = (weatherData) => {
 
   for (let i = -2; i < 6; i++) {
     const hour = (currentHour + i) % 24;
-    const time = getTimeString(hour);
+    const parsedTime = getTimeString(hour);
     const temperature = getTemperature(hour);
     const selected = i === 0;
     const icon = getIcon(hour);
 
-    data.push({ time, temperature, selected, icon });
+    data.push({ parsedTime, temperature, selected, icon });
   }
 
   return data;
@@ -88,7 +87,7 @@ export default function WeatherInfo({ weatherData }) {
           style={styles(colors).regularText}
         >{`${item.temperature}ºC`}</Text>
         {item.icon}
-        <Text style={styles(colors).regularText}>{item.time}</Text>
+        <Text style={styles(colors).regularText}>{item.parsedTime}</Text>
       </View>
     );
 
@@ -97,11 +96,7 @@ export default function WeatherInfo({ weatherData }) {
         colors={colors.selectedGradient}
         start={{ x: 1.5, y: 0.4 }}
         end={{ x: 0, y: 1.1 }}
-        style={{
-          overflow: "hidden",
-          borderRadius: 20,
-          padding: 1,
-        }}
+        style={styles(colors).selectedGradient}
       >
         <CardContent />
       </LinearGradient>
@@ -126,13 +121,8 @@ export default function WeatherInfo({ weatherData }) {
         keyExtractor={(item, index) => index.toString()}
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={{
-          paddingLeft: 20,
-        }}
-        contentContainerStyle={{
-          gap: 12,
-          paddingRight: 40,
-        }}
+        paddingLeft={20}
+        contentContainerStyle={styles(colors).flatlistContentContainer}
       />
     </View>
   );
@@ -147,6 +137,15 @@ const styles = (colors) =>
       backgroundColor: colors.background,
       borderRadius: 20,
       gap: 12,
+    },
+    selectedGradient: {
+      overflow: "hidden",
+      borderRadius: 20,
+      padding: 1,
+    },
+    flatlistContentContainer: {
+      gap: 12,
+      paddingRight: 40,
     },
     titleContainer: {
       paddingHorizontal: 24,

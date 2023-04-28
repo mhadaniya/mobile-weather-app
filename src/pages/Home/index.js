@@ -39,7 +39,7 @@ export default function Home() {
         ]}
       >
         <Header weatherData={weatherData} />
-        <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+        <ScrollView contentContainerStyle={styles(colors).scrollViewContainer}>
           <View style={styles(colors).mainContentContainer}>
             <Image
               source={
@@ -47,19 +47,15 @@ export default function Home() {
                   ? require("../../assets/images/Dark.png")
                   : require("../../assets/images/Light.png")
               }
-              style={{ width: 300, height: 200 }}
+              style={styles(colors).mainContentImage}
             />
             <Text
               style={styles(colors).mainContentTitle}
             >{`${weatherData.temp}º`}</Text>
             <Text
-              style={[
-                styles(colors).regularText,
-                {
-                  textAlign: "center",
-                  textShadowColor: "transparent",
-                },
-              ]}
+              textAlign={"center"}
+              textShadowColor={"transparent"}
+              style={styles(colors).regularText}
             >
               {`${weatherData.description}\nMax.:${todayForecast.max}º   Min.:${todayForecast.min}º`}
             </Text>
@@ -86,6 +82,7 @@ const styles = (colors) =>
       flex: 1,
       gap: 16,
     },
+    scrollViewContainer: { paddingBottom: 20 },
     generalContainer: {
       marginHorizontal: 36,
       marginTop: 24,
@@ -105,6 +102,7 @@ const styles = (colors) =>
       fontFamily: "SFProDisplaySemiBold",
       textAlign: "center",
     },
+    mainContentImage: { width: 300, height: 200 },
     regularText: {
       fontSize: 18,
       color: "#fff",
