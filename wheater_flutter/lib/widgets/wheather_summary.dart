@@ -50,7 +50,7 @@ class _WheatherSummaryState extends State<WheatherSummary> {
         Column(
           children: [
             Text(
-              widget.temperature + "º",
+              "${widget.temperature}º",
               style: TextStyle(
                   fontSize: 64,
                   fontFamily: 'SFProDisplay-regular',
@@ -98,7 +98,7 @@ class _WheatherSummaryState extends State<WheatherSummary> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
-                        "${widget.precipitationPercentage}%",
+                        "${widget.humidity}%",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
@@ -115,7 +115,7 @@ class _WheatherSummaryState extends State<WheatherSummary> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
-                        "${widget.humidity}%",
+                        "${widget.precipitationPercentage}%",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,

@@ -7,7 +7,11 @@ import '../utils/weather_codes.dart';
 
 class Forecast extends StatefulWidget {
   final dynamic weather;
-  const Forecast({super.key, required this.weather});
+
+  Forecast({
+    super.key,
+    required this.weather,
+  });
 
   @override
   State<Forecast> createState() => _ForecastState();
@@ -49,6 +53,7 @@ class _ForecastState extends State<Forecast> {
             child: Column(
                 children: widget.weather["time"].map<Widget>((day) {
               dynamic index = widget.weather["time"].indexOf(day);
+
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -67,7 +72,7 @@ class _ForecastState extends State<Forecast> {
                     color: Colors.yellow,
                   ),
                   SizedBox(
-                    width: 80,
+                    width: 120,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -75,16 +80,16 @@ class _ForecastState extends State<Forecast> {
                           "${widget.weather["temperature_2m_max"][index]}ºc",
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 16,
                               fontFamily: 'AlegreySans-Regular',
                               fontWeight: FontWeight.w500),
                         ),
                         Text(
                           "${widget.weather["temperature_2m_max"][index]}ºc",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.white70,
                               fontFamily: 'AlegreySans-Regular',
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.w500),
                         )
                       ],

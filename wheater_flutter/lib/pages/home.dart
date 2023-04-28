@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:wheater_flutter/widgets/forecast.dart';
 import 'package:wheater_flutter/widgets/today_wheather.dart';
 import 'package:wheater_flutter/widgets/wheather_summary.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../widgets/drop_down.dart';
 
 class HomePage extends StatefulWidget {
@@ -88,11 +88,12 @@ class _HomePageState extends State<HomePage> {
                     min: apiData["daily"]["temperature_2m_min"][0].toString(),
                     max: apiData["daily"]["temperature_2m_max"][0].toString(),
                     windSpeed:
-                        apiData["daily"]["temperature_2m_max"][0].toString(),
+                        apiData["current_weather"]["windspeed"].toString(),
                     humidity:
-                        apiData["daily"]["temperature_2m_max"][0].toString(),
-                    precipitationPercentage:
-                        apiData["daily"]["temperature_2m_max"][0].toString(),
+                        apiData["hourly"]["relativehumidity_2m"][0].toString(),
+                    precipitationPercentage: apiData["hourly"]
+                            ["precipitation_probability"][0]
+                        .toString(),
                     weatherCode:
                         apiData["current_weather"]["weathercode"].toString(),
                   ),
@@ -111,6 +112,18 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           )
-        : Container();
+        : Container(
+            child: SpinKitCircle(
+              size: 140,
+              itemBuilder: (context, index) {
+                final colors = [Colors.white, Colors.pink, Colors.yellow];
+                final color = colors[index % colors.length];
+                return DecoratedBox(
+                    decoration: BoxDecoration(
+                  color: color,
+                ));
+              },
+            ),
+          );
   }
 }

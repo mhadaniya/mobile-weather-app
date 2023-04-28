@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 dynamic weatherInterpretation = {
-  "0": {"description": "Clear sky", "icon": "wb_sunny"},
+  "0": {"description": "Clear sky", "icon": "./assets/images.rain.png"},
   "1": {"description": "Mainly clear", "icon": "wb_sunny"},
   "2": {"description": "Partly cloudy", "icon": "partly_sunny"},
   "3": {"description": "Overcast", "icon": "cloud"},

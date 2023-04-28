@@ -8,7 +8,7 @@ class DropDown extends StatefulWidget {
 }
 
 class _DropDownState extends State<DropDown> {
-  List<String> list = <String>['Fortaleza', 'Two', 'Three', 'Four'];
+  List<String> list = <String>['Maceió', 'Two', 'Three', 'Four'];
 
   @override
   Widget build(BuildContext context) {

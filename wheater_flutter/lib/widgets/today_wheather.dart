@@ -59,6 +59,7 @@ class _TodayWheatherState extends State<TodayWheather> {
                   width: 100,
                   //color: Colors.red,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       // ignore: prefer_const_constructors
                       Text(
