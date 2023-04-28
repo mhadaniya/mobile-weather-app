@@ -1,13 +1,6 @@
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useContext,
-  createContext,
-} from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import * as SplashScreen from "expo-splash-screen";
-import { atom, useAtom } from "jotai";
 import axios from "axios";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Routes from "./src/routes";
@@ -24,7 +17,7 @@ const fetchWeatherData = async (setWeatherData) => {
     const response = await axios.get("https://api.hgbrasil.com/weather");
     setWeatherData(response.data.results);
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error setting WeatherData:", error);
   }
 };
 
@@ -47,7 +40,7 @@ export default function App() {
 
   useEffect(() => {
     SplashScreen.preventAutoHideAsync();
-    loadData().catch((error) => console.error("Error2:", error));
+    loadData().catch((error) => console.error("Error loading data:", error));
   }, [loadData]);
 
   if (!fontsLoaded || !weatherData) {

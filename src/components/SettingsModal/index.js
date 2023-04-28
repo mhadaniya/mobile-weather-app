@@ -6,9 +6,10 @@ import {
   StyleSheet,
   useColorScheme,
 } from "react-native";
-import Modal from "react-native-modal";
+
 import { useAtom } from "jotai";
-import { colorSchemeAtom } from "../../atoms";
+import { colorSchemeAtom } from "../../atoms/ColorSchemeAtom";
+import Modal from "react-native-modal";
 
 export default function SettingsModal({
   isVisible,
@@ -18,7 +19,6 @@ export default function SettingsModal({
 }) {
   const [mode, setMode] = useState("default");
   const systemColorScheme = useColorScheme();
-
   const [colorScheme, setColorScheme] = useAtom(colorSchemeAtom);
 
   const handleModeChange = (newMode) => {

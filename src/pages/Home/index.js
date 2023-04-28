@@ -1,32 +1,23 @@
-import React, { useContext, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  useColorScheme,
-  Image,
-  ScrollView,
-  FlatList,
-} from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAtom } from "jotai";
+import { colorSchemeAtom } from "../../atoms/ColorSchemeAtom";
 import { darkColors, lightColors } from "../../styles/colors";
+
 import Forecast from "../../components/Forecast";
 import Attributes from "../../components/Attributes";
 import Header from "../../components/Header";
 import WeatherInfo from "../../components/WeatherInfo";
 import useWeatherData from "../../hooks/useWeatherData";
-import { useAtom } from "jotai";
-import { colorSchemeAtom } from "../../atoms";
 
 export default function Home() {
   const [colorScheme] = useAtom(colorSchemeAtom);
-
   const colors = colorScheme.type === "dark" ? darkColors : lightColors;
   const insets = useSafeAreaInsets();
-
   const weatherData = useWeatherData();
-
   const todayForecast = weatherData.forecast[0];
 
   return (

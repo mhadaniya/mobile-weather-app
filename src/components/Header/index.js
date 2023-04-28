@@ -1,24 +1,13 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  useColorScheme,
-  TouchableOpacity,
-} from "react-native";
-import { darkColors, lightColors } from "../../styles/colors";
-import {
-  IconHumidity,
-  IconMap,
-  IconNotif,
-  IconOpt,
-  IconRain,
-  IconWind,
-} from "../../assets/svg";
-import { Ionicons } from "@expo/vector-icons";
-import SettingsModal from "../../components/SettingsModal";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+
 import { useAtom } from "jotai";
-import { colorSchemeAtom } from "../../atoms";
+import { colorSchemeAtom } from "../../atoms/ColorSchemeAtom";
+import { darkColors, lightColors } from "../../styles/colors";
+import { IconMap, IconNotif, IconOpt } from "../../assets/svg";
+import { Ionicons } from "@expo/vector-icons";
+
+import SettingsModal from "../../components/SettingsModal";
 
 export default function Header({ weatherData }) {
   const [colorScheme] = useAtom(colorSchemeAtom);

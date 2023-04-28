@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, useColorScheme, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { darkColors, lightColors } from "../../styles/colors";
 import { IconCloudy, IconCloudyDay, IconCloudyMoon } from "../../assets/svg";
 import { useAtom } from "jotai";
-import { colorSchemeAtom } from "../../atoms";
+import { colorSchemeAtom } from "../../atoms/ColorSchemeAtom";
 
 const generateMockData = (weatherData) => {
   if (!weatherData) {
@@ -52,11 +52,33 @@ const generateMockData = (weatherData) => {
   return data;
 };
 
+const formatDate = (date) => {
+  const months = [
+    "Jan",
+    "Fev",
+    "Mar",
+    "Abr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Set",
+    "Out",
+    "Nov",
+    "Dez",
+  ];
+
+  const dateParts = date.split("/");
+  const day = parseInt(dateParts[0], 10);
+  const month = parseInt(dateParts[1], 10);
+  const monthName = months[month - 1];
+
+  return `${monthName}, ${day}`;
+};
+
 export default function WeatherInfo({ weatherData }) {
   const [colorScheme] = useAtom(colorSchemeAtom);
-
   const colors = colorScheme.type === "dark" ? darkColors : lightColors;
-
   const mockData = generateMockData(weatherData);
 
   const WeatherCard = ({ item, selected }) => {
@@ -92,7 +114,9 @@ export default function WeatherInfo({ weatherData }) {
     <View style={styles(colors).generalContainer} flexDirection={"column"}>
       <View style={styles(colors).titleContainer}>
         <Text style={styles(colors).boldText}>Hoje</Text>
-        <Text style={styles(colors).regularText}>Mar, 9</Text>
+        <Text style={styles(colors).regularText}>
+          {formatDate(weatherData.date)}
+        </Text>
       </View>
       <FlatList
         data={mockData}

@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, useColorScheme } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+
+import { useAtom } from "jotai";
+import { colorSchemeAtom } from "../../atoms/ColorSchemeAtom";
 import { darkColors, lightColors } from "../../styles/colors";
 import { IconHumidity, IconRain, IconWind } from "../../assets/svg";
-import { useAtom } from "jotai";
-import { colorSchemeAtom } from "../../atoms";
 
 export default function Attributes({ weatherData }) {
   const [colorScheme] = useAtom(colorSchemeAtom);

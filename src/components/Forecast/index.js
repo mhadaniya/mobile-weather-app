@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, useColorScheme, Image } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
+
+import { useAtom } from "jotai";
+import { colorSchemeAtom } from "../../atoms/ColorSchemeAtom";
 import { darkColors, lightColors } from "../../styles/colors";
 import { IconCalendar } from "../../assets/svg";
-import { useAtom } from "jotai";
-import { colorSchemeAtom } from "../../atoms";
 
 const weekDayParser = (day) => {
   switch (day) {
