@@ -1,37 +1,90 @@
-# Processo seletivo para desenvolvedor mobile
+# Aplicativo de Previsão do Tempo
 
-Olá,
+Este repositório contém o código-fonte do Aplicativo de Previsão do Tempo, que foi criado como parte do processo seletivo para pessoa desenvolvedora mobile no projeto do NEES (Núcleo de Excelência em Tecnologias Sociais).
 
-Estamos em busca de pessoas que gostem de tecnologia e queiram fazer parte da nossa equipe de desenvolvimento mobile! Se você é um desenvolvedor apaixonado por novas tecnologias, que gosta de trabalhar em equipe e tem vontade de aprender, então essa é a sua chance.
+O aplicativo foi desenvolvido com o Expo. Ele se utiliza de uma [API](https://api.hgbrasil.com/weather) e de dados mock para popular conteúdo. O design foi disponibilizado no [Figma Community](https://www.figma.com/community/file/1158928016905524023) e foi criado pela [@becabelin](https://www.figma.com/@becabelin).
 
-O processo seletivo é simples, vamos pedir que você desenvolva um aplicativo, para que possamos avaliar seu potencial. A instrução completa esta mais abaixo.
+![demo](https://media.giphy.com/media/OG4jLM0tYsLxWgx0E2/giphy.gif)
 
-Depois dessa etapa, vamos avaliar todos os candidatos que realizarem a submissão no tempo correto, que serão convidados para uma entrevista final, com parte do nosso time, para discutir os detalhes e forma de  trabalho, basicamente para verificarmos se vai dar "_match_".
+## Índice
 
-Caso seja selecionado, você irá trabalhar em um ambiente descontraído e inovador, com profissionais de alta qualidade e muitas oportunidades de aprendizado. Além disso, terá a chance de participar do desenvolvimento de um projeto inovador na área da educação.
+- [Aplicativo de Previsão do Tempo](#aplicativo-de-previsão-do-tempo)
+  - [Índice](#índice)
+  - [Instalação](#instalação)
+  - [Uso](#uso)
+  - [Dependências](#dependências)
+  - [Contribuindo](#contribuindo)
 
-E então, vamos nessa? Mostre para nós que você é o profissional que estamos procurando!
+## Instalação
 
-## Instruções
+1. Certifique-se de ter [Node.js](https://nodejs.org/) e [Expo CLI](https://docs.expo.io/workflow/expo-cli/) instalados em seu sistema.
+2. Clone o repositório:
 
-Se você resolveu topar o desafio, vamos lá! Primeiro de tudo, faça o **fork** deste repositório. Você deverá desenvolver um aplicativo de previsão do tempo. O aplicativo pode ser desenvolvidor em [Flutter](https://flutter.dev/) ou [React-Native](https://reactnative.dev/).
+```bash
+git clone https://github.com/Iannery/mobile-weather-app.git
+```
 
-O resultado final deverá ser parecido com:
+3. Mude para o diretório do projeto:
 
-![](assets/images/thumbnail-figma.png)
+```bash
+cd mobile-weather-app
+```
 
-Esta tela pode ser encontrada neste [Figma Community](https://www.figma.com/community/file/1158928016905524023) criado pela [@becabelin](https://www.figma.com/@becabelin). Claro que uma ou outra coisa pode ser adaptada, mas essa adaptação depois poderá ser questionada na entrevista.
+4. Instale as dependências necessárias:
 
-Os dados podem ser consumidos da seguinte [API](https://api.hgbrasil.com/weather). Caso queira utilizar outra, escolha uma aberta e envie as intruções de uso, caso necessário.
+```bash
+yarn install
+```
 
-Ao fim, altere o `README.md` com instruções para instalação e execução do aplicativo.
+## Uso
 
-Os pontos que serão avaliados:
+Para iniciar o servidor de desenvolvimento, execute o seguinte comando:
 
-- fidelidade com o mock
-- funcionalidade
-- organização de componentes
-- organização de commits
-- organização de código
+```bash
+yarn start
+```
 
-Boa sorte 🍀! Aguardamos sua submissão!
+Para executar o aplicativo no Android, iOS ou web, use os respectivos comandos:
+
+```bash
+yarn android
+yarn ios
+yarn web
+```
+
+## Dependências
+
+O aplicativo utiliza as seguintes dependências:
+
+- @expo-google-fonts/alegreya-sans
+- @expo/vector-icons
+- @react-navigation/bottom-tabs
+- @react-navigation/native
+- @react-navigation/stack
+- axios
+- expo
+- expo-font
+- expo-linear-gradient
+- expo-splash-screen
+- expo-status-bar
+- jotai
+- react
+- react-native
+- react-native-gesture-handler
+- react-native-modal
+- react-native-safe-area-context
+- react-native-svg
+- react-native-svg-transformer
+
+Para desenvolvimento, o aplicativo utiliza:
+
+- @babel/core
+- @react-native-community/eslint-config
+- eslint
+- eslint-config-prettier
+- eslint-plugin-ft-flow
+- prettier
+
+## Contribuindo
+
+Se você deseja contribuir para este projeto, faça um fork do repositório e envie um pull request.
