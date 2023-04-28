@@ -17,10 +17,11 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import Precipitations from './Components/Precipitations/Precipitations';
+import HeaderWeather from './Components/Header/Header';
+import WeatherRain from './Components/WeatherRain/WeatherRain';
 //import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 /*
@@ -29,79 +30,92 @@ type SectionProps = PropsWithChildren<{
 }>;
 */
 
-const baseUrl = 'https://api.hgbrasil.com/weather?key=581fed9e';
-const LocationImage = require('./assets/local.png');
+const baseUrl = 'https://api.hgbrasil.com/weather?key=b9b40610';
 
 function App(): JSX.Element {
-  const isDarkMode = false;
-  const [data, setdata] = useState({});
-  const [today, setToday] = useState({});
+  type dataT = {
+    date: string;
+    weekday: string;
+    max: number;
+    min: number;
+    cloudiness: number;
+    rain: number;
+    rain_probability: number;
+    wind_speedy: string;
+    description: string;
+    condition: string;
+  }
+  const [data, setdata] = useState({
+    date:'',
+    temp:'99',
+    city_name: 'cidade x',
+    humidity:0,
+  });
+  const [today, setToday] = useState({
+    date: '01/01',
+    weekday: 'Example',
+    max: 99,
+    min: 0,
+    cloudiness: 100.0,
+    rain: 0.0,
+    rain_probability: 21,
+    wind_speedy: '99 km/h',
+    description: 'Tempo nublado',
+    condition: 'cloudly_day',
+  });
   const [forecast, setforecast] = useState([]);
+
   axios.get(`${baseUrl}`).then(async response => {
     await setdata(response.data.results);
     await setforecast(response.data.results.forecast);
-    forecast.forEach(item => {
+    forecast.forEach((item:dataT) => {
       if (item.date === data.date.slice(0, 5)) {
         setToday(item);
       }
     });
   });
-  const [selectedValue, setSelectedValue] = useState(data.city_name);
+
+  function getMonthInText(dateString: string): string {
+    const [day, month] = dateString.split('/').map(str => parseInt(str, 10));
+    const monthsInText = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
+      'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ];
+
+    return monthsInText[month - 1] + ', ' + day;
+  }
+
+  const isRaining = today.condition;
   return (
     <LinearGradient
       style={{ height: '100%' }}
       colors={
-        isDarkMode
+        isRaining === 'rain'
           ? ['#08244F', '#134CB5', '#0B42AB']
           : ['#29B2DD', '#33AADD', '#2DC8EA']
       }>
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={isDarkMode ? '#08244F' : '#29B2DD'}
+        barStyle={isRaining === 'rain' ? 'light-content' : 'dark-content'}
+        backgroundColor={isRaining === 'rain' ? '#08244F' : '#29B2DD'}
       />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={{ marginVertical: 10, marginHorizontal: 25 }}>
-          <View style={{ flex: 1, flexDirection: 'row' }}>
-            <Image style={styles.LocalIcon} source={LocationImage} />
-            <Picker
-              selectedValue={selectedValue}
-              style={{ color: 'white', width: 155, height: 44 }}
-              onValueChange={itemValue =>
-                setSelectedValue(itemValue)
-              }>
-              <Picker.Item label={data.city_name} value={data.city} />
-            </Picker>
-            <TouchableOpacity style={{ marginLeft: 100 ,alignContent: 'flex-end' }}>
-              <Image style={styles.notificationIcon} source={require('./assets/notify.png')} />
-            </TouchableOpacity>
-          </View>
+          <HeaderWeather city_name={data.city_name} />
           <Text style={styles.Temperature} >
             {data.temp}°
           </Text>
-          <View>
-            <Text style={{ textAlign: 'center', color:'white' }}>
-              Precipitations
-            </Text>
-            <Text style={styles.Text}>
-                Max.:{
-                  today.max
-              }°
-              &nbsp;
-              Min.:{
-                today.min
-              }°
-            </Text>
-          </View>
-          <View style={{ flex: 1, flexDirection: 'row', marginVertical: 30, paddingHorizontal: 25, paddingVertical: 15, borderRadius: 22, backgroundColor: isDarkMode ? '#001026' : '#1580ae' }} >
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <Image style={styles.WeatherIcons} source={require('./assets/chuva.png')} />
-              <Text style={styles.Text}>{today.rain_probability}%</Text>
+          <Precipitations max={today.max} min={today.min} />
+          <WeatherRain Weater={isRaining} rain_probability={today.rain_probability} humidity={data.humidity} wind_speedy={today.wind_speedy}/>
+          <View style={{ marginVertical: 20, padding: 15, borderRadius: 22, backgroundColor: isRaining === 'rain' ? '#001026' : '#1580ae' }} >
+            <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
+              <Text style={{ textAlign: 'left', color: 'white', fontWeight: 'bold', marginRight: 170, fontSize: 20 }}>Today</Text>
+              <Text style={{ textAlign: 'right', color: 'white', fontSize: 19 }}>{getMonthInText(today.date)}</Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <Image style={{ width: 14, height: 20, marginHorizontal: 10 }} source={require('./assets/humidade.png')} />
               <Text style={styles.Text}>{data.humidity}%</Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, flexDirection: 'row', marginRight:10 }}>
               <Image style={styles.WeatherIcons} source={require('./assets/wind.png')} />
               <Text style={styles.Text}>{today.wind_speedy}</Text>
             </View>
@@ -148,12 +162,12 @@ const styles = StyleSheet.create({
   Text: {
     textAlign: 'center',
     color: 'white',
-    
+    fontSize: 14,
   },
   WeatherIcons: {
     width: 19,
     height: 19,
-    marginHorizontal:10,
+    marginHorizontal: 10,
   },
 });
 
