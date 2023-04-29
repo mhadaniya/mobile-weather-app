@@ -35,3 +35,21 @@ Os pontos que serão avaliados:
 - organização de código
 
 Boa sorte 🍀! Aguardamos sua submissão!
+
+
+## Instalação e execução do projeto
+
+- Ao clonar o repositório entre em um terminal e digite o comando
+
+```sh
+cd weather-app
+```
+
+- Para executar a aplicação será necessário instalar os pacotes do node previamente
+```sh
+npm install && npx expo start
+```
+- Durante a instalação do Expo app irá pedir no terminal a porta para a execução da aplicação em produção;
+- Pode se ver, também, um Qrcode para a instalação da aplicação por algum dispositivo remoto;
+
+- Após a instalação, pode executar a versão em android clicando com a tecla "a" em seu teclado;
