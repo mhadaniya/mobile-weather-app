@@ -1,0 +1,10 @@
+export { default as IconCalendar } from "./svg/calendar.svg"; // 24x24
+export { default as IconCloudy } from "./svg/cloudy.svg"; // 35x23
+export { default as IconCloudyDay } from "./svg/cloudy_day.svg"; // 35x25
+export { default as IconCloudyMoon } from "./svg/cloudy_moon.svg"; // 35x29
+export { default as IconHumidity } from "./svg/humidity.svg"; // 24x24
+export { default as IconMap } from "./svg/map.svg"; // 27x27
+export { default as IconNotif } from "./svg/notif.svg"; // 27x27
+export { default as IconOpt } from "./svg/opt.svg"; // 27x27
+export { default as IconRain } from "./svg/rain.svg"; // 24x24
+export { default as IconWind } from "./svg/wind.svg"; // 24x24
